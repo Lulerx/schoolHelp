@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itle.schoolhelp.mapper.SchoolMapper">
+    
+    <select id="findAllSchools" resultType="school">
+        SELECT * FROM school
+    </select>
+
+    <select id="findSchoolById" resultType="school">
+        SELECT * FROM school WHERE schoolid = #{schoolId}
+    </select>
+
+    <select id="findSchoolByName" resultType="school">
+        SELECT * FROM school WHERE name = #{name}
+    </select>
+
+    
+    <update id="updateSchoolMsg" parameterType="school">
+        UPDATE school
+        <set>
+            <if test="name != null" >
+                name = #{name},
+            </if>
+            <if test="addTime != null" >
+                addtime = #{addTime},
+            </if>
+            <if test="state != null" >
+                state = #{state},
+            </if>
+
+        </set>
+        where schoolid = #{schoolId}
+    </update>
+
+    <insert id="insertSchool" parameterType="school">
+        INSERT ignore INTO school(
+        schoolid,
+        name,
+        addtime,
+        state
+        )
+        VALUES (NULL ,
+        #{name},
+        #{addTime},
+        #{state}
+        )
+    </insert>
+
+</mapper>

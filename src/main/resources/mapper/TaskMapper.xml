@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itle.schoolhelp.mapper.TaskMapper">
+
+    <!--如果主键冲突会直接报错，可使用`ignore`实现主键冲突就直接返回0，表示插入失败-->
+    <insert id="insertTask" parameterType="task">
+        INSERT ignore INTO
+        task(taskid,
+        publish_user_id,
+        publish_user_name,
+        publish_school_id,
+        accept_user_id,
+        reward,
+        addtime,
+        endtime,
+        taskname,
+        taskcontext,
+        state)
+        VALUES (NULL ,
+        #{publishUserId},
+        #{publishUserName},
+        #{publishSchoolId},
+        #{acceptUserID},
+        #{reward},
+        #{addTime},
+        #{endTime},
+        #{taskName},
+        #{taskContext},
+        #{state})
+    </insert>
+
+    <select id="getAllTask" resultType="task">
+        SELECT * FROM task
+        WHERE 1=1
+        ORDER BY taskid desc
+    </select>
+
+    <select id="findTaskByUserId" resultType="task">
+        SELECT * FROM task WHERE publish_user_id = #{studentId}
+    </select>
+
+    <select id="findTaskByTaskId" resultType="task">
+        SELECT * FROM task WHERE taskid = #{taskId}
+    </select>
+
+    <select id="getPageList" resultType="task">
+        SELECT * FROM task
+        WHERE 1=1
+        AND state = 0
+        ORDER BY taskid desc
+        limit #{start}, #{limit}
+    </select>
+    
+    <update id="updateTask" parameterType="task">
+        UPDATE task
+        <set>
+            <if test="publishUserId != null">
+                publish_user_id = #{publishUserId},
+            </if>
+            <if test="publishUserName != null">
+                publish_user_name = #{publishUserName},
+            </if>
+            <if test="publishSchoolId != null">
+                publish_school_id = #{publishSchoolId},
+            </if>
+            <if test="acceptUserID != null">
+                accept_user_id = #{acceptUserID},
+            </if>
+            <if test="reward != null">
+                reward = #{reward},
+            </if>
+            <if test="addTime != null">
+                addtime = #{addTime},
+            </if>
+            <if test="endTime != null">
+                endtime = #{endTime},
+            </if>
+            <if test="taskName != null">
+                taskname = #{taskName},
+            </if>
+            <if test="taskContext != null">
+                taskcontext = #{taskContext},
+            </if>
+            <if test="state != null">
+                state = #{state},
+            </if>
+        </set>
+        WHERE taskid = #{taskId}
+    </update>
+
+</mapper>

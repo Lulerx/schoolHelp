@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itle.schoolhelp.mapper.AdminMapper">
+    
+    <select id="findAdminById" resultType="admin">
+        SELECT * FROM admin WHERE account = #{account}
+    </select>
+
+    <update id="updateAdmin" parameterType="admin">
+        UPDATE admin
+        <set>
+            <if test="account != null" >
+                account = #{account},
+            </if>
+            <if test="password != null" >
+                password = #{password},
+            </if>
+            <if test="name != null" >
+                name = #{name},
+            </if>
+            <if test="addTime != null" >
+                addtime = #{addTime},
+            </if>
+
+        </set>
+        where aid = #{aId}
+    </update>
+    
+    <insert id="insertAdmin" parameterType="admin">
+        INSERT ignore INTO admin(
+        aid,
+        account,
+        password,
+        name,
+        addtime
+        )
+        VALUES (
+        NULL ,
+        #{account},
+        #{password},
+        #{name},
+        #{addTime}
+        )
+    </insert>
+
+</mapper>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body th:fragment="header">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">校园通服务平台</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item"><a href="/task/getTaskList">任务中心</a></li>
+            <li class="layui-nav-item"><a href="/userIndex/getPage">个人中心</a></li>
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <span th:if="${session.nowUser}!=null">
+                <li class="layui-nav-item">
+                    <a href="">消息<span class="layui-badge">9</span></a>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="">个人中心<span class="layui-badge-dot"></span></a>
+                </li>
+                <li class="layui-nav-item"><a href="javascript:;">[[${session.nowUser.name}]]</a>
+                    <dl class="layui-nav-child">
+                        <dd>
+                            <a href="/userIndex/getPage">个人信息</a>
+                        </dd>
+                        <dd>
+                            <a href="/userUpdate/getPage">资料修改</a>
+                        </dd>
+                        <dd>
+                            <a href="/userPassword/getPage">安全设置</a>
+                        </dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a href="/user/logout">退出</a></li>
+            </span>
+            <span th:if="${session.nowUser}==null">
+                    <li class="layui-nav-item"><a href="/register/getPage">注册</a></li>
+                    <li class="layui-nav-item"><a href="/login/getPage">登录</a></li>
+            </span>
+
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+
+                <li class="layui-nav-item layui-this"><a href="/task/getTaskList">校园通服务平台</a></li>
+                <th:if test="${session.nowUser} !=null">
+                    <li class="layui-nav-item layui-nav-itemed"><a
+                            href="javascript:;">任务管理</a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="/task/getUserTask">已发布任务</a>
+                            </dd>
+                            <dd>
+                                <a href="/task/getUserAcceptTask">已接受任务</a>
+                            </dd>
+                            <dd>
+                                <a href="/userNewTask/getPage">发布新任务</a>
+                            </dd>
+                        </dl>
+                    </li>
+
+                    <li class="layui-nav-item layui-nav-itemed"><a class="" href="javascript:;">个人中心</a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="/userIndex/getPage">个人信息</a>
+                            </dd>
+                            <dd>
+                                <a href="/userUpdate/getPage">资料修改</a>
+                            </dd>
+                            <dd>
+                                <a href="/userPassword/getPage">安全设置</a>
+                            </dd>
+                        </dl>
+                    </li>
+                </th:if>
+
+            </ul>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

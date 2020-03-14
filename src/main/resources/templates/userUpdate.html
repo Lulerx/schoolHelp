@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!--修改个人信息页面-->
+<head th:include="public/head :: head" th:with="title='个人中心'"></head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <!--导航栏-->
+    <div th:replace="public/body :: header"></div>
+
+    <!-- 内容主体区域-->
+    <div class="layui-body">
+        <div style="padding: 30px;" class="layui-fluid">
+            <div class="layui-row">
+                <div class="layui-col-md12">
+                    <span class="layui-badge-dot"></span> <span
+                        class="layui-badge-dot layui-bg-orange"></span> <span
+                        class="layui-badge-dot layui-bg-green"></span> <span
+                        class="layui-badge-dot layui-bg-cyan"></span> <span
+                        class="layui-badge-dot layui-bg-blue"></span> <span
+                        class="layui-badge-dot layui-bg-black"></span> <span
+                        class="layui-badge-dot layui-bg-gray"></span>
+                    <fieldset class="layui-elem-field layui-field-title"
+                              style="margin-top: 30px;">
+                        <legend>资料修改</legend>
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="layui-row">
+                <div class="layui-col-md1">&nbsp;</div>
+                <div class="layui-col-md9">
+                    <fieldset class="layui-elem-field">
+                        <legend>资料修改</legend>
+                        <form id="reform" class="layui-form layui-form-pane" lay-filter="formFilter"
+                              action="" method="post" style="padding: 30px;">
+
+                            <input type="hidden" name="stuId" th:value="${session.nowUser.stuId}">
+
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">学号</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="studentId" lay-verify="studentid"
+                                           disabled="disabled" autocomplete="off" class="layui-input"
+                                           th:value="${session.nowUser.studentId}">
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">姓名</label>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="name" lay-verify="name"
+                                           autocomplete="off" class="layui-input"
+                                           th:value="${session.nowUser.name }">
+                                </div>
+                            </div>
+
+
+                            <div class="layui-form-item">
+                                <label class="layui-form-label">学校</label>
+                                <div class="layui-input-block">
+                                    <select id="schoolid" name="schoolId" lay-filter="aihao">
+                                        <option value="0" selected="">无</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="layui-form-item" pane="">
+                                <label class="layui-form-label">性别</label>
+                                <div class="layui-input-block">
+                                    <input type="radio" name="sex" value="0" title="男" th:checked="${session.nowUser.sex} == 0">
+                                    <input type="radio" name="sex" value="1" title="女" th:checked="${session.nowUser.sex} != 0">
+                                </div>
+                            </div>
+
+
+                            <div class="layui-form-item">
+                                <button class="layui-btn" lay-submit="reform"
+                                        lay-filter="reform">保存
+                                </button>
+                            </div>
+                        </form>
+                    </fieldset>
+
+                </div>
+                <div class="layui-col-md1">&nbsp;</div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!--底部-->
+    <div th:replace="public/footer :: footer"></div>
+
+
+</div>
+<script src="../static/layui/layui.all.js"></script>
+<script>
+
+    layui.use(['form'], function () {
+        var form = layui.form,
+            layer = layui.layer;
+
+        //自定义验证规则
+        form.verify({
+            studentid: function (value) {
+                if (value.length < 6) {
+                    return '学号至少得6个字符啊';
+                }
+            },
+            name: function (value) {
+                if (value.length < 1) {
+                    return '姓名至少得1个字符啊';
+                }
+            }
+        });
+
+        //监听提交
+        form.on('submit(reform)', function (data) {
+            $.ajax({
+                type:'POST',
+                url:'/user/updateInfo',
+                dataType: "json",//预期服务器返回的数据类型
+                data: $('#reform').serialize(),
+                success:function(data){
+                    var layer = layui.layer;
+                    layer.msg(data.msg);
+                }
+            });
+            /*layer.alert(JSON.stringify(data.field), {
+                title : '最终的提交信息'
+            })*/
+            return false;
+        });
+
+
+    });
+</script>
+<!--<script type="text/javascript">
+    var form;
+    layui.use(['layedit', 'form'], function () {
+        form = layui.form;
+    });
+    //加载layui中的jq
+    layui.use(['jquery', 'layer'], function () {
+        var $ = layui.$, //重点处
+            layer = layui.layer;
+
+        $(function () {
+            $.post(
+                "",
+                // "common/getallschools.do",
+                {},
+                function (data) {
+                    var obj = JSON.parse(data);
+                    var str = "";
+                    for (var i = 0; i < obj.length; i++) {
+                        var optionStr = "";
+                        optionStr += "<option value='" + obj[i].schoolid + "'>" + obj[i].name + "</option>";
+                        $("#schoolid").append(optionStr);
+                        $("#schoolid").val(${nowuser.schoolid});
+                        form.render('select', 'formFilter');
+                    }
+                }
+            );
+        });
+
+    });
+</script>-->
+</body>
+</html>

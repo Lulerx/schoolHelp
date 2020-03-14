@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    <mapper namespace="com.itle.schoolhelp.mapper.UserMapper">
+
+    <select id="findByStudentId" resultType="user">
+        SELECT * FROM  user  WHERE studentid = #{studentId}
+    </select>
+
+    <select id="findUserByStuId" resultType="user">
+        SELECT * FROM  user  WHERE stuid = #{stuId}
+    </select>
+
+    <!--如果主键冲突会直接报错，可使用`ignore`实现主键冲突就直接返回0，表示插入失败-->
+    <insert id="insertUser" parameterType="user">
+        INSERT ignore INTO user(stuid, studentid, password, schoolid, sex, name, registertime, money, state)
+        VALUES (NULL , #{studentId}, #{password}, #{schoolId}, #{sex}, #{name}, #{registerTime}, #{money}, #{state})
+    </insert>
+
+    <update id="updateUser" parameterType="user">
+        UPDATE user
+        <set>
+            <if test="studentId != null" >
+                studentid = #{studentId},
+            </if>
+            <if test="password != null" >
+                password = #{password},
+            </if>
+            <if test="schoolId != null" >
+                schoolid = #{schoolId},
+            </if>
+            <if test="sex != null" >
+                sex = #{sex},
+            </if>
+            <if test="name != null" >
+                name = #{name},
+            </if>
+            <if test="registerTime != null" >
+                registertime = #{registerTime},
+            </if>
+            <if test="money != null" >
+                money = #{money},
+            </if>
+            <if test="state != null" >
+                state = #{state},
+            </if>
+        </set>
+        where stuid = #{stuId}
+    </update>
+
+</mapper>
