@@ -3,6 +3,8 @@ package com.itle.schoolhelp.mapper;
 import com.itle.schoolhelp.pojo.User;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * @auther Luler
  * @date 2020/1/17
@@ -37,4 +39,6 @@ public interface UserMapper {
      * @return
      */
     User findUserByStuId(Integer stuId);
+
+    List<User> findUserList();
 }

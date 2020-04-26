@@ -65,8 +65,8 @@
                         <td>[[${theTask.reward }]]</td>
                     </tr>
                     <tr>
-                        <td>发布时间</td>
-                        <td th:text="${#dates.format(theTask.addTime,'yyyy-MM-dd HH:mm:ss')}">
+                        <td>截止时间</td>
+                        <td th:text="${#dates.format(theTask.endTime,'yyyy-MM-dd HH:mm:ss')}">
                             2020-2-12 14:47:32
                         </td>
                     </tr>
@@ -93,11 +93,6 @@
     </div>
 </div>
 
-<!--<c:if test="${!empty msg }">
-    <script type="text/javascript">
-        alert("${msg }");
-    </script>
-</c:if>-->
 <script src="../static/layui/layui.all.js"></script>
 <script>
     //JavaScript代码区域

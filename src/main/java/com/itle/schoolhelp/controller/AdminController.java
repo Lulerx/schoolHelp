@@ -2,8 +2,13 @@ package com.itle.schoolhelp.controller;
 
 import com.itle.schoolhelp.pojo.Admin;
 import com.itle.schoolhelp.pojo.School;
+import com.itle.schoolhelp.pojo.Task;
+import com.itle.schoolhelp.pojo.User;
 import com.itle.schoolhelp.service.IAdminService;
 import com.itle.schoolhelp.service.ISchoolService;
+import com.itle.schoolhelp.service.ITaskService;
+import com.itle.schoolhelp.service.IUserService;
+import com.itle.schoolhelp.service.impl.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +42,12 @@ public class AdminController {
 
     @Autowired
     private ISchoolService schoolService;
+
+    @Autowired
+    private ITaskService taskService;
+
+    @Autowired
+    private IUserService userService;
 
 
     /**
@@ -157,7 +168,11 @@ public class AdminController {
     }
 
 
-
+    /**
+     * 添加管理员
+     * @param admin
+     * @return
+     */
     @PostMapping("/addAdmin")
     @ResponseBody
     public Map<String , Object>  addAdmin(Admin admin){
@@ -173,6 +188,54 @@ public class AdminController {
             map.put("msg","添加成功");
         }
 
+        return map;
+    }
+
+
+
+    @RequestMapping("/adminTask")
+    public String adminTask(Model model){
+        List<Task> allTask = taskService.getAllTask();
+        model.addAttribute("taskList",allTask);
+
+        return "admin/adminTask";
+    }
+
+
+
+
+    @RequestMapping("/adminUser")
+    public String adminUser(Model model){
+        List<User> allUser = userService.findAllUser();
+        model.addAttribute("UserList",allUser);
+        return "admin/adminUser";
+    }
+
+
+
+    @RequestMapping("/money")
+    public String UserMoney(@RequestParam(value = "stuId")int stuId, Model model){
+        User TheUser = userService.findUserByStuId(stuId);
+        model.addAttribute("TheUser", TheUser);
+        return "admin/adminUserMoney";
+    }
+
+
+    @RequestMapping("/addMoney")
+    @ResponseBody
+    public Map<String, Object> addMoney(@RequestParam(value = "stuidstr")int stuId,
+                                        @RequestParam(value = "moneystr")int money){
+
+        Map<String, Object> map = new HashMap<>();
+
+        User user = userService.findUserByStuId(stuId);
+        user.setMoney(user.getMoney() + money);
+        int flag = userService.updateUser(user);
+        if (flag > 0 ){
+            map.put("msg","充值成功！");
+        }else {
+            map.put("msg","充值失败，请重试！");
+        }
         return map;
     }
 

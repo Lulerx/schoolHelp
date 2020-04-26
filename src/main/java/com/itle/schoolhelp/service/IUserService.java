@@ -2,6 +2,8 @@ package com.itle.schoolhelp.service;
 
 import com.itle.schoolhelp.pojo.User;
 
+import java.util.List;
+
 /**
  * @auther Luler
  * @date 2020/1/16
@@ -10,6 +12,7 @@ public interface IUserService {
 
     /**
      * 用户登录的service，根据学号id查询用户
+     *
      * @param studentId
      * @return
      */
@@ -17,6 +20,7 @@ public interface IUserService {
 
     /**
      * 根据学号id统计用户个数，查看是否存在该用户
+     *
      * @param studentId
      * @return
      */
@@ -24,6 +28,7 @@ public interface IUserService {
 
     /**
      * 用户注册，插入一个用户信息
+     *
      * @param user
      * @return
      */
@@ -32,6 +37,7 @@ public interface IUserService {
 
     /**
      * 更新用户信息
+     *
      * @param user
      * @return
      */
@@ -39,8 +45,11 @@ public interface IUserService {
 
     /**
      * 根据用户id查找用户
+     *
      * @param stuId
      * @return
      */
     User findUserByStuId(Integer stuId);
+
+    List<User> findAllUser();
 }

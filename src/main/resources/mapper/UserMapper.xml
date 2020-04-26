@@ -6,6 +6,10 @@
     <select id="findByStudentId" resultType="user">
         SELECT * FROM  user  WHERE studentid = #{studentId}
     </select>
+    
+    <select id="findUserList" resultType="user">
+        SELECT * FROM user
+    </select>
 
     <select id="findUserByStuId" resultType="user">
         SELECT * FROM  user  WHERE stuid = #{stuId}

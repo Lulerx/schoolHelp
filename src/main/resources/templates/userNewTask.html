@@ -32,7 +32,7 @@
                     <fieldset class="layui-elem-field">
                         <legend>填写新任务信息</legend>
                         <form id="reform" class="layui-form layui-form-pane"
-                              lay-filter="formFilter" action="/task/newTask" method="post"
+                              lay-filter="formFilter" action="" method="post"
                               style="padding: 30px;">
 
                             <div class="layui-form-item">
@@ -98,6 +98,7 @@
 </div>
 </body>
 <script src="../static/layui/layui.all.js"></script>
+<script src="../static/js/jquery/jquery-3.3.1.min.js"></script>
 <script>
     //JavaScript代码区域
     layui.use('element', function () {
@@ -157,7 +158,7 @@
             , type: 'datetime'
         });
 
-        /* //监听提交
+         //监听提交
          form.on('submit(reform)', function (data) {
              $.ajax({
                  type:'POST',
@@ -175,7 +176,7 @@
                  }
              });
              return false;
-         });*/
+         });
 
 
     });

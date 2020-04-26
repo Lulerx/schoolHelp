@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @auther Luler
@@ -47,5 +48,11 @@ public class UserService implements IUserService {
     @Override
     public User findUserByStuId(Integer stuId) {
         return userMapper.findUserByStuId(stuId);
+    }
+
+    @Override
+    public List<User> findAllUser() {
+
+        return userMapper.findUserList();
     }
 }

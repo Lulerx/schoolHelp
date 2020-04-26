@@ -66,7 +66,7 @@ public class TaskController {
      * @param task
      * @return
      */
-    /*@RequestMapping(value = "/newTask" , method = RequestMethod.POST)
+    @RequestMapping(value = "/newTask" , method = RequestMethod.POST)
     @ResponseBody
     public Map<String , Object> createTask(HttpServletRequest request, Task task ,
                                            @RequestParam(value = "Time") String Time){
@@ -118,10 +118,9 @@ public class TaskController {
 
 
     }
-*/
 
 
-    @RequestMapping(value = "/newTask")
+    /*@RequestMapping(value = "/newTask")
     public String createTask(HttpServletRequest request, Model model, Task task ,
                              @RequestParam(value = "Time") String Time){
         HttpSession session = request.getSession();
@@ -168,7 +167,7 @@ public class TaskController {
         }
         return "redirect:/task/getTaskList";
 
-    }
+    }*/
 
 
 
