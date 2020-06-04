@@ -29,6 +29,47 @@
             <div class="layui-row">
                 <div class="layui-col-md1">&nbsp;</div>
                 <div class="layui-col-md10">
+                    <form class="layui-form layui-form-pane" lay-filter="formFilter"
+                          method="post" action=""> <!--Todo-->
+
+                        <div class="layui-form-item">
+                            <div class="layui-input-inline">
+                                <label class="layui-form-label">状态</label>
+                                <div class="layui-input-block">
+                                    <select id="schoolSelect" name="schoolName"
+                                            lay-filter="schoolFilter0">
+                                        <option selected="">全部</option>
+                                        <option value="0">待解决</option>
+                                        <option value="0">已关闭</option>
+                                        <option value="0">解决中</option>
+                                        <option value="0">已完成</option>
+                                        <option value="0">被限制</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="layui-inline">
+                                <label class="layui-form-label">关键词</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="words" autocomplete="off"
+                                           class="layui-input" value="">
+                                </div>
+                            </div>
+
+                            <button class="layui-btn" lay-submit="seform"
+                                    lay-filter="seform">搜索
+                            </button>
+
+                        </div>
+
+                    </form>
+                </div>
+                <div class="layui-col-md1">&nbsp;</div>
+            </div>
+
+            <div class="layui-row">
+                <div class="layui-col-md1">&nbsp;</div>
+                <div class="layui-col-md10">
                     <fieldset  class="layui-elem-field" style="padding: 20px;">
                         <legend>已发布任务</legend>
                         <div th:each="task : ${taskList}">
@@ -37,6 +78,7 @@
                                     <span  class="layui-badge layui-bg-gray" th:case="1">已关闭</span>
                                     <span  class="layui-badge layui-bg-green" th:case="2">进行中</span>
                                     <span  class="layui-badge layui-bg-orange" th:case="3">已完成</span>
+                                    <span  class="layui-badge layui-bg-orange" th:case="-1">被限制</span>
                             </div>
                             <fieldset class="layui-elem-field layui-field-title"
                                       style="margin: 20px;margin-bottom: 5px;margin-top: 5px;">
@@ -48,7 +90,7 @@
                                       th:text="'发布时间：' + ${#dates.format(task.addTime,'yyyy-MM-dd HH:mm:ss')}">发布时间：</span>
                                 <!--<c:if test="${task.state!=0 }">-->
                                     <span class="layui-badge layui-bg-gray"
-                                          th:text="'结束时间：' + ${#dates.format(task.addTime,'yyyy-MM-dd HH:mm:ss')}">结束时间：</span>
+                                          th:text="'结束时间：' + ${#dates.format(task.endTime,'yyyy-MM-dd HH:mm:ss')}">结束时间：</span>
                                 <!--</c:if>-->
                                 <span class="layui-badge layui-bg-gray" th:text=" '奖励：' + ${task.reward} ">奖励：</span>
                             </div>

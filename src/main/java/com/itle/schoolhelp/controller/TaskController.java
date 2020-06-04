@@ -198,6 +198,8 @@ public class TaskController {
         User user = (User) session.getAttribute("nowUser");
         List<Task> taskList = taskService.findTaskByUserId(user.getStudentId());
 
+        Collections.reverse(taskList);
+
         model.addAttribute("taskList",taskList);
 
         return "userPublishTask";
@@ -265,11 +267,15 @@ public class TaskController {
      * @return
      */
     @RequestMapping("/acceptTask")
+
     public String userAcceptTask(@RequestParam(value = "taskId") Integer taskId, HttpServletRequest request, Model model) {
+
+        Map<String, Object> map = new HashMap<>();
         HttpSession session = request.getSession();
         User nowUser = (User) session.getAttribute("nowUser");
         if (nowUser == null){  //用户未登录
             model.addAttribute("msg","请检查登录状态！");
+            map.put("msg","请检查登录状态！");
             return "login";
         }
         Task NowTask = taskService.findTaskByTaskId(taskId);
@@ -305,6 +311,8 @@ public class TaskController {
                 UserAcceptList.add(task);
             }
         }
+
+        Collections.reverse(UserAcceptList);
 
         model.addAttribute("AcceptList",UserAcceptList);
 

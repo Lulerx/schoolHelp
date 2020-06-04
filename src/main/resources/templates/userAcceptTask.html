@@ -28,6 +28,47 @@
             <div class="layui-row">
                 <div class="layui-col-md1">&nbsp;</div>
                 <div class="layui-col-md10">
+                    <form class="layui-form layui-form-pane" lay-filter="formFilter"
+                          method="post" action=""> <!--Todo-->
+
+                        <div class="layui-form-item">
+                            <div class="layui-input-inline">
+                                <label class="layui-form-label">状态</label>
+                                <div class="layui-input-block">
+                                    <select id="schoolSelect" name="schoolName"
+                                            lay-filter="schoolFilter0">
+                                        <option selected="">全部</option>
+                                        <option value="0">待解决</option>
+                                        <option value="0">已关闭</option>
+                                        <option value="0">解决中</option>
+                                        <option value="0">已完成</option>
+                                        <option value="0">被限制</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="layui-inline">
+                                <label class="layui-form-label">关键词</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="words" autocomplete="off"
+                                           class="layui-input" value="">
+                                </div>
+                            </div>
+
+                            <button class="layui-btn" lay-submit="seform"
+                                    lay-filter="seform">搜索
+                            </button>
+
+                        </div>
+
+                    </form>
+                </div>
+                <div class="layui-col-md1">&nbsp;</div>
+            </div>
+
+            <div class="layui-row">
+                <div class="layui-col-md1">&nbsp;</div>
+                <div class="layui-col-md10">
                     <fieldset  class="layui-elem-field">
                         <legend>已接受任务</legend>
                         <div th:each="task : ${AcceptList}">
@@ -44,11 +85,29 @@
                             <div style="margin-left: 20px;margin-right: 30px;">
                                 <span class="layui-badge layui-bg-gray">详细描述</span>
                                 <span class="layui-badge layui-bg-gray">截止时间：[[${#dates.format(task.endTime,'yyyy-MM-dd HH:mm:ss')}]]</span>
-                                <span th:if="${task.state} == 3" class="layui-badge layui-bg-gray">结束时间：[[${#dates.format(task.endTime,'yyyy-MM-dd HH:mm:ss')}]]</span>
+                                <!--<span th:if="${task.state} == 3" class="layui-badge layui-bg-gray">结束时间：[[${#dates.format(task.endTime,'yyyy-MM-dd HH:mm:ss')}]]</span>-->
                                 <span class="layui-badge layui-bg-gray">奖励：[[${task.reward }]]</span>
                             </div>
                             <div style="margin-left: 30px;margin-right: 30px;margin-top: 10px;margin-bottom: 30px;">
                                 <h3>[[${task.taskContext }]]</h3>
+                            </div>
+                            <div style="margin-left: 30px;margin-right: 30px;margin-top: 10px;margin-bottom: 30px;">
+                                <!--th:href="@{/task/closeTask(taskId=${task.taskId })}"-->
+                                <a th:onclick="'javascript:getAuser(\''+${task.acceptUserID }+'\')'"
+                                   class="layui-btn layui-btn-sm layui-btn-primary layui-btn-radius">发布者信息</a>
+                                <a th:if="${task.state} == 0" th:onclick="'javascript:closeTask(\''+${task.taskId }+'\')'"
+                                   class="layui-btn layui-btn-sm layui-btn-primary layui-btn-radius">取消该任务</a>
+                                <button th:if="${task.state} == 1"
+                                        class="layui-btn layui-btn-sm layui-btn-disabled layui-btn-radius">任务已关闭
+                                </button>
+                                <span th:if="${task.state} == 2">
+                                    <a th:onclick="'javascript:taskOK(\''+${task.taskId }+'\')'"
+                                       class="layui-btn layui-btn-sm layui-btn-primary layui-btn-radius">取消任务</a>
+                                </span>
+                                <span th:if="${task.state} == 3">
+                                    <a th:onclick="'javascript:closeTask(\''+${task.taskId }+'\')'"
+                                       class="layui-btn layui-btn-sm layui-btn-primary layui-btn-radius">删除任务</a>
+                                </span>
                             </div>
                         </div>
 
@@ -62,17 +121,12 @@
 
     </div>
 
-    <!--<c:if test="${!empty msg }">
-        <script type="text/javascript">
-            alert("${msg }");
-        </script>
-    </c:if>-->
-
     <!--底部-->
     <div th:replace="public/footer :: footer"></div>
 
 </div>
 <script src="../static/layui/layui.all.js"></script>
+<script src="../static/js/jquery/jquery-3.3.1.min.js"></script>
 <script>
     //JavaScript代码区域
     layui.use('element', function () {
@@ -85,34 +139,17 @@
     });
 </script>
 <script>
-    layui.use(['form'], function () {
-        var form = layui.form,
-            layer = layui.layer;
-
-        //自定义验证规则
-        form.verify({
-            studentid: function (value) {
-                if (value.length < 5) {
-                    return '学号至少得5个字符啊';
-                }
-            },
-            name: function (value) {
-                if (value.length < 1) {
-                    return '姓名至少得1个字符啊';
-                }
-            }
+    function getAuser(acceptUserID){
+        //iframe层
+        layer.open({
+            type: 2,
+            title: '该用户信息',
+            shadeClose: true,
+            shade: false,
+            area: ['1000px', '600px'],
+            content: '/common/getUserMsg?strId='+acceptUserID
         });
-
-        //监听提交
-        form.on('submit(reform)', function (data) {
-            layer.alert(JSON.stringify(data.field), {
-                title: '最终的提交信息'
-            })
-            //return false;
-        });
-
-
-    });
+    }
 </script>
 </body>
 </html>

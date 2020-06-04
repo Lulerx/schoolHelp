@@ -73,7 +73,7 @@
                             </div>
 
                             <div th:if="${session.nowUser.state} == 0" class="layui-form-item">
-                                <button class="layui-btn" lay-submit="reform"
+                                <button type="submit" class="layui-btn" lay-submit="reform"
                                         lay-filter="reform">发布
                                 </button>
                             </div>
@@ -168,8 +168,9 @@
                  success:function(data){
                      var layer = layui.layer;
                      if (data.url != null){
-                         layer.msg(data.msg,{time:3000,shade:0.4});
-                         window.location.href = data.url;
+                         layer.msg(data.msg,{time:1500,shade:0.4},function () {
+                             window.location.href = data.url;
+                         });
                      }else {
                          layer.msg(data.msg,{time:3000,shade:0.4});
                      }

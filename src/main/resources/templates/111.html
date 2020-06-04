@@ -38,7 +38,7 @@
                             <div class="layui-input-inline">
                                 <label class="layui-form-label">学校</label>
                                 <div class="layui-input-block">
-                                    <select id="schoolidstr" name="schoolidstr"
+                                    <select id="schoolSelect" name="schoolName"
                                             lay-filter="schoolFilter0">
                                         <option value="-1" selected="">未选择</option>
                                         <option value="0">无</option>
@@ -132,8 +132,9 @@
     <div th:replace="public/footer :: footer"></div>
 
 </div>
-</body>
 
+
+<script src="../static/js/jquery/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="../static/layui/layui.all.js"></script>
 
 <script>
@@ -178,20 +179,33 @@
 
         $(function () {
             $.post(
-                "common/getallschools.do",
+                "common/getAllSchools",
                 {},
                 function (data) {
                     var obj = JSON.parse(data);
                     var str = "";
                     for (var i = 0; i < obj.length; i++) {
                         var optionStr = "";
-                        optionStr += "<option value='" + obj[i].schoolid + "'>" + obj[i].name + "</option>";
-                        $("#schoolidstr").append(optionStr);
-                        $("#schoolidstr").val(${schoolidstr});
+                        optionStr += "<option value=" + obj[i].schoolid + "'>" + obj[i].name + "</option>";
+                        $("#schoolSelect").append(optionStr);
+                        $("#schoolSelect").val(${schoolSelect});
                         form.render('select', 'formFilter');//加载完毕后更新表单显示（统一样式）
                     }
                 }
             );
+            $.get('common/getAllSchools', function(data){
+                $("#schoolSelect").empty();
+                if (data.length > 0) {
+                    for (var i = 0; i < data.length; i++) {
+                        var id = data[i].id;
+                        var textStr = data[i].name;
+                        $optionStr = $("<option>").attr({"value" : id}).text(textStr);
+                        $("#yourOptipn").append($optionStr);
+                    }
+                    $("#yourOptipn").change();
+                }
+
+            });
         });
     });
 </script>
@@ -239,5 +253,5 @@
         });
     });
 </script>-->
-
+</body>
 </html>

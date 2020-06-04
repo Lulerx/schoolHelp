@@ -192,7 +192,11 @@ public class AdminController {
     }
 
 
-
+    /**
+     * 管理员任务管理
+     * @param model
+     * @return
+     */
     @RequestMapping("/adminTask")
     public String adminTask(Model model){
         List<Task> allTask = taskService.getAllTask();
@@ -202,8 +206,38 @@ public class AdminController {
     }
 
 
+    @RequestMapping("/xzTask")
+    @ResponseBody
+    public Map<String, Object> xzTask(@RequestParam(value = "taskId") int taskId){
+        Map<String, Object> map = new HashMap<>();
+
+        Task task = taskService.findTaskByTaskId(taskId);
+        task.setState(Short.valueOf("-1"));
+
+        taskService.updateTask(task);
+        map.put("msg","任务被限制");
+        return map;
+    }
+
+    @RequestMapping("/xzTask2")
+    @ResponseBody
+    public Map<String, Object> xzTask2(@RequestParam(value = "taskId") int taskId){
+        Map<String, Object> map = new HashMap<>();
+
+        Task task = taskService.findTaskByTaskId(taskId);
+        task.setState(Short.valueOf("1"));
+
+        taskService.updateTask(task);
+        map.put("msg","解除限制");
+        return map;
+    }
 
 
+    /**
+     * 用户管理
+     * @param model
+     * @return
+     */
     @RequestMapping("/adminUser")
     public String adminUser(Model model){
         List<User> allUser = userService.findAllUser();
@@ -212,7 +246,12 @@ public class AdminController {
     }
 
 
-
+    /**
+     * 显示余额
+     * @param stuId
+     * @param model
+     * @return
+     */
     @RequestMapping("/money")
     public String UserMoney(@RequestParam(value = "stuId")int stuId, Model model){
         User TheUser = userService.findUserByStuId(stuId);
@@ -221,6 +260,12 @@ public class AdminController {
     }
 
 
+    /**
+     * 余额充值
+     * @param stuId
+     * @param money
+     * @return
+     */
     @RequestMapping("/addMoney")
     @ResponseBody
     public Map<String, Object> addMoney(@RequestParam(value = "stuidstr")int stuId,
@@ -236,6 +281,33 @@ public class AdminController {
         }else {
             map.put("msg","充值失败，请重试！");
         }
+        return map;
+    }
+
+
+    @RequestMapping("/userClose")
+    @ResponseBody
+    public Map<String, Object> userclose(@RequestParam(value = "userId")int userId){
+
+        Map<String, Object> map = new HashMap<>();
+        User user = userService.findUserByStuId(userId);
+        user.setState(Short.valueOf("-1"));
+        userService.updateUser(user);
+        map.put("msg","用户被限制");
+
+        return map;
+    }
+
+    @RequestMapping("/userOpen")
+    @ResponseBody
+    public Map<String, Object> userOpen(@RequestParam(value = "userId")int userId){
+
+        Map<String, Object> map = new HashMap<>();
+        User user = userService.findUserByStuId(userId);
+        user.setState(Short.valueOf("0"));
+        userService.updateUser(user);
+        map.put("msg","解除用户限制");
+
         return map;
     }
 

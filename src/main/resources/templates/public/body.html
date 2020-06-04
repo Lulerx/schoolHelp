@@ -13,10 +13,7 @@
         <ul class="layui-nav layui-layout-right">
             <span th:if="${session.nowUser}!=null">
                 <li class="layui-nav-item">
-                    <a href="">消息<span class="layui-badge">9</span></a>
-                </li>
-                <li class="layui-nav-item">
-                    <a href="">个人中心<span class="layui-badge-dot"></span></a>
+                    <a href="/userIndex/getPage">个人中心</a>
                 </li>
                 <li class="layui-nav-item"><a href="javascript:;">[[${session.nowUser.name}]]</a>
                     <dl class="layui-nav-child">
